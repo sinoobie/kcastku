@@ -19,13 +19,13 @@ def req_data():
 	hsil=[{"title":x.text.strip(), "url":x["href"]} for x in data]
 	return hsil
 
-def get_capter(url, nopil):
+def get_capter(url):
 	_cap=[]
 	req=requests.get(url,headers=head)
 	bs=BS(req.text, 'html.parser')
 	data=bs.find_all('span', {'class':'leftoff'})
 
-	all=data[nopil-1].text.split(' ')[1]
+	all=data[-1].text.split(' ')[1]
 	if '-' in all:
 		n=int(all.split('-')[0])
 	elif '.' in all:
@@ -132,7 +132,7 @@ else:
 	pil=int(input("Pilih: "))
 
 print(f"\n\033[96m[•{tit[pil-1]}•]")
-cap=get_capter(url[pil-1], pil)
+cap=get_capter(url[pil-1])
 for x in range(len(cap)):
 	print(f"[{x+1}] Chapter {cap[x]['cap']}")
 print(f"[ {len(cap)} (Total) Chapter ditemukan ]\n")
