@@ -1,4 +1,4 @@
-import requests, os, json, time
+import requests, os, sys, time
 from bs4 import  BeautifulSoup as BS
 from tqdm import tqdm
 
@@ -25,7 +25,12 @@ def get_capter(url):
 	bs=BS(req.text, 'html.parser')
 	data=bs.find_all('span', {'class':'leftoff'})
 	for x in data:
-		_cap.append([float(x.text.strip().split(' ')[1]), x.find('a')['href']])
+		nc=x.text.strip().split(' ')[1]
+		if '-' in nc:
+			ncp=float(nc.split('-')[0])
+		else:
+			ncp=float(nc)
+		_cap.append([ncp, x.find('a')['href']])
 	_cap.sort()
 	hsil=[{'cap':y[0], 'url':y[1]} for y in _cap]
 	return hsil
@@ -88,8 +93,8 @@ time.sleep(0.5)
 os.system('clear')
 
 print("""\033[97m
-		[ KOMIKCAST DOWNLOADER ]
-		       - noobie -
+	[ KOMIKCAST DOWNLOADER ]
+	       - noobie -
 """)
 try:
 	open('/sdcard/test.txt','w')
@@ -113,10 +118,13 @@ for x in data:
 		url.append(x['url'])
 		tit.append(x['title'])
 		n+=1
-pil=int(input("Pilih: "))
+if len(tit) == 0:
+	sys.exit("Manga Tidak Tersedia")
+else:
+	pil=int(input("Pilih: "))
 
 cap=get_capter(url[pil-1])
-print(f"\n\t\033[96m[{len(cap)} Chapter ditemukan]\n")
+print(f"\n\t\033[96m[{len(cap)} Chapter ditemukan]\n\n[Note] Mungkin jumlah chapternya terlihat lebih banyak atupun lebih sedikit dari pada aslinya, itu karena jika ada chapter (misal: 10.5) chapter tsb akan menjadi chapter11 (dibulatkan keatas). ataupun jika ada chapter gabungan (misal: 14-15) kedua chapter ini akan dijadikan satu nama (chapter14)\n")
 lih=input("""\033[97m[info]
 # ketik (misalnya: 10-) untuk mendownload dari chapter 10 sampai akhir chapter
 # ketik (misalnya: 10-20) untuk mendownload dari chapter 10 sampai chapter 20
