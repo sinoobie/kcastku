@@ -97,11 +97,6 @@ print("OK")
 time.sleep(0.5)
 os.system('clear')
 
-MAINDIR=f'/sdcard/kcastku'
-try:
-	os.mkdir(MAINDIR)
-except: pass
-
 print("""\033[97m
 	[ KOMIKCAST DOWNLOADER ]
 	       - noobie -
@@ -111,6 +106,11 @@ try:
 except:
 	print("\033[97mNote: Program ini membutuhkan akses internal storage untuk menyimpan hasil download")
 	os.system('termux-setup-storage')
+
+MAINDIR='/sdcard/kcastku'
+try:
+	os.mkdir(MAINDIR)
+except: pass
 
 n=1
 url=[]
