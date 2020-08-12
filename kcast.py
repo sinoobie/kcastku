@@ -86,7 +86,6 @@ def chap_dl(data, lih, title):
 		get_udl(data, data[int(lih)-1]['url'], title, int(lih))
 		return True
 
-	print(pil)
 	for x in pil:
 		get_udl(data, data[x-1]['url'], title, x)
 
