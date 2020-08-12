@@ -25,19 +25,13 @@ def get_capter(url):
 	bs=BS(req.text, 'html.parser')
 	data=bs.find_all('span', {'class':'leftoff'})
 
-	all=data[-1].text.split(' ')[1]
-	if '-' in all:
-		n=int(all.split('-')[0])
-	elif '.' in all:
-		n=int(all.split('.')[0])
-	else:
-		n=int(all)
+	n=0
 	for x in data:
 		nc=x.text.strip().split(' ')[1]
 		_cap.append([n, nc, x.find('a')['href']])
 		n-=1
 	_cap.sort()
-#	print(_cap)
+#	print(_cap, n)
 	hsil=[{'cap':y[1], 'url':y[2]} for y in _cap]
 	return hsil
 
@@ -135,11 +129,13 @@ print(f"\n\033[96m[•{tit[pil-1]}•]")
 cap=get_capter(url[pil-1])
 for x in range(len(cap)):
 	print(f"[{x+1}] Chapter {cap[x]['cap']}")
+
 print(f"[ {len(cap)} (Total) Chapter ditemukan ]\n")
 lih=input("""\033[97m[info]
 # ketik (misalnya: 10-) untuk mendownload dari nomor 10 sampai akhir nomor
 # ketik (misalnya: 10-20) untuk mendownload dari nomor 10 sampai nomor 20
 # ketik angka saja tanpa garis untuk mendownload salah satu nomor
 noobie/> """)
+
 chap_dl(cap, lih, tit[pil-1])
 print("\n\033[92m[all done] Semua hasil downloadnya tesimpan di internal storage (/sdcard/kcastku)")
